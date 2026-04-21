@@ -10,7 +10,10 @@ Secondary Stakeholders: Emergency Services (At both the State and County level)
 
 
 Primary data sets come from:  
-1. (CAL FIRE Historical Wildfire Perimeters)[https://gis.data.ca.gov/maps/CALFIRE-Forestry::california-historical-fire-perimeters/about] 
+1. (CAL FIRE Historical Wildfire Perimeters GeoJSON file)[https://gis.data.ca.gov/datasets/CALFIRE-Forestry::california-fire-perimeters-all/about] 
+
+Also used the data file on https://data.ca.gov/dataset/ca-geographic-boundaries to clip the data to the specific county 
+
 2. (Sentinel-2)[https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-missions/sentinel-2]
 
 3. wget data with weather/environmental stuff
@@ -22,17 +25,19 @@ Using the findings and recommendations in (Spectral indices alone are not enough
 From the sentinel satellite data we can use the bands to calculate the following: 
 1. NDVI — Normalized Difference Vegetation Index 
     this measures how much live green vegetation there is 
-    *Fuel abundance*
+    *Fuel abundance* NDVI = (B8 - B4)/(B8 + B4)
 
 2. NDVI Anomaly- compares greenness/dryness to prior years to see if an area is unusually green/dry 
-    *Early indicator/risk signal*
+    *Early indicator/risk signal* (see e.g. https://custom-scripts.sentinel-hub.com/sentinel-2/ndvi_anomaly_detection/)
 
 3. NDWI — Normalized Difference Water Index measures moisture of live vegetation (only at the top level/canopy)
-    *flammability of fuel*
+    *flammability of fuel* Note: there are actually two different versions of this, and for our purposes, we want the version proposed by Gao which is defined as NDWI = (NIR - SWIR)/(NIR + SWIR) = (B8 - B11)/(B8 + B12)
 
 4. NBR — Normalized Burn Ratio measures density of vegetation (pre-fire fuel presence indicator)
-    *fuel load*
+    *fuel load* Calculated as NBR = (B8 - B12)/(B8 + B12)
 
+
+I need bands B4, B8, B11, and B12 from the Sentinel Data set-- descriptions of the bands found (here)[https://custom-scripts.sentinel-hub.com/sentinel-2/bands/]. Additionally, I need SCL 
 
 Meteorological/Drought features	
 1. Land Surface Temperature (LST); 
